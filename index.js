@@ -1,46 +1,67 @@
 
+
 const btnEncriptar = document.getElementById(`encriptar`);
 const btnDesencriptar = document.getElementById(`desencriptar`);
 
-const textarea = document.getElementById(`text`);
-const textresult = document.getElementById(`textarearesult`);
-const keyList = Object.entries({
-    "a": 'ai',
-    "e": 'enter',
-    "i": 'imes',
-    "o": 'ober',
-    "u": 'ufat',
-});
-text.addEventListener('keyup', function (event) {
+const textarea = document.querySelector(".text");
+const textresult = document.querySelector(".textarearesult");
+const mensajealert = document.querySelector(".alerta2");
+const copybtn = document.querySelector(".copy");
+
+/*text.addEventListener('keyup', function (event) {
     if (event.getModifierState('CapsLock')) {
         alert("Bloq Mayús esta activado");
     }
-});
-function encriptar() {
-    let mensaje = text.value;
-    let caracter = mensaje.split("");
-    var cripto = {
-        'a': "ai",
-        'e': "enter",
-        'i': "imes",
-        'o': "ober",
-        'u': "ufat"
-    };
-    var encriptado = "";
-    for (var i = 0; i < caracter.length; i++) {
-        if (cripto[caracter[i]] === undefined) {
-            encriptado = encriptado + caracter[i];
-        } else {
-            encriptado = encriptado + cripto[caracter[i]];
-        }
+})*/
+function btnencript() {
+    const encriptresult = encriptar(textarea.value)
+    textresult.value = encriptresult;
+    textarea.value = "";
+    textresult.style.backgroundImage = "none"
+    mensajealert.style.color ="white"
+    copybtn.style.display ="block"
+    
+
+}
+function encriptar(stringencript) {
+    let matriz = [["e", "enter"], ["i", "imes"], ["o", "ober"], ["u", "ufat"],["a", "ai"]];
+   
+
+    for (let i = 0; i < matriz.length; i++){
+        if(stringencript.includes(matriz[i][0])){
+            stringencript = stringencript.replaceAll(matriz[i][0], matriz[i][1])
+        } 
     }
-    resultadohtml(encriptado)
+    return stringencript
+
+}
+function btndesencript() {
+    const encriptresult = desencriptar(textarea.value)
+    textresult.value = encriptresult;
+    textarea.value = "";
+    textresult.style.backgroundImage = "none"
+    mensajealert.style.color ="white"
+    copybtn.style.display ="block"
+}
+function desencriptar(stringdesencript) {
+    let matriz = [["e", "enter"], ["i", "imes"], ["o", "ober"], ["u", "ufat"],["a", "ai"]];
+   
+
+    for (let i = 0; i < matriz.length; i++){
+        if(stringdesencript.includes(matriz[i][0])){
+            stringdesencript = stringdesencript.replaceAll(matriz[i][1], matriz[i][0])
+        } 
+    }
+    return stringdesencript
+
 }
 
-btnEncriptar.addEventListener('click', encriptar);
-
-function resultadohtml(encriptado) {
-    textresult.innerHTML = '<textarea>${encriptado} </textarea><button class="btnCopiar">Copiar</button>'
-};
-
+const copy=( )=> {
+   let text = textresult.value
+   navigator.clipboard.writeText(text)
+   alert("texto copiado")
+}
+btnEncriptar.addEventListener('click', btnencript)
+btnDesencriptar.addEventListener('click', btndesencript)
+copybtn.addEventListener('click',copy)
 
